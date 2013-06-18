@@ -1,3 +1,7 @@
+/* server.js
+ * This file listens and responsds to http requests.
+ */
+
 var http = require("http");
 var util = require("util");
 var url = require("url");
@@ -8,6 +12,7 @@ function start(route, handle) {
         var pathname = url.parse(request.url).pathname;
         console.log("Request for " + pathname + " received.");
 
+        console.log("Headers: " + request.headers);
         request.setEncoding("utf8");
 
         console.log("adding data listener ...");
