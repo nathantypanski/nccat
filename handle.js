@@ -2,29 +2,24 @@
  * This module provides request handler functions.
  */
 
-var exec = require("child_process").exec;
-var querystring = require("querystring");
+var path = require('path');
+var fs = require('fs');
+var querystring = require('querystring');
+var files = require('./files.js');
+
+function load(response, file) {
+    console.log('Trying to read ' + path.normalize(file) + ' from ' + path.dirname(path.normalize(file)));
+    files.readFile(file, response);
+}
 
 var handlers = {
     start : function start(response) {
         console.log("Request handler 'start' was called.");
-
-        var body = '<html>'+
-                '<head>'+
-                '<meta http-equiv="Content-Type" content="text/html; '+
-                'charset=UTF-8" />'+
-                '</head>'+
-                '<body>'+
-                '<form action="/upload" method="post">'+
-                '<textarea name="text" rows ="20" cols="60"></textarea>'+
-                '<input type="submit" value="Submit text" />'+
-                '</form>'+
-                '</body>'+
-                '</html>';
-
-            response.writeHead(200, {"Content-Type": "text/html"});
-            response.write(body);
-            response.end();
+        response.writeHead(200, {"Content-Type": "text/html"});
+        puts(response, './data/head.html');
+        puts(response, './data/form.html');
+        puts(response, './data/footer.html');
+        response.end();
     },
 
     upload : function upload(response, postData) {

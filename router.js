@@ -4,7 +4,7 @@
 var path = require("path");
 
 function route(handle, pathname, response, postData) {
-    console.log("About to route a request for " + pathname.split(path.sep)[1]);
+    console.log("About to route a request for " + pathname.split(path.sep)[1] + '.');
     if(handle(pathname.split(path.sep)[1], response, postData)){
         ;
     } else {
