@@ -14,7 +14,6 @@ var parser = {
             console.log('files: %j', files);
             console.log('       (%d entries)', files.length);
         }
-        console.log('Working on file ' + files[i] + '.');
         i = (null == i ? 0 : i);
         if (i < files.length ) {
             this.readFile(files[i], response,
@@ -34,30 +33,33 @@ var parser = {
     },
 
     readFile : function (file, response, callback) {
+        console.log('Working on file ' + file + '.');
+        this.openFile(file, function read(err, fd) {
+            if (err) throw err;
+            fs.readFile(file, 'utf8', function (err, data) {
+                if (err) throw err;
+                response.write(data);
+                fs.close(fd);
+                console.log('Successfully closed %s.',  file);
+                callback(err);
+            });
+        });
+    },
+
+    openFile : function (file, callback) {
         fs.exists(file, function (exists) {
             if (exists) {
-                console.log(file + ' exists.');
                 fs.stat(file, function open (err, stats) {
-                    if (err) throw err;
-                    if (stats.isFile()) console.log(file + ' is a file.');
-                    else console.log(file + ' is not a file');
+                    if (err) {
+                        throw err;
+                    }
                     fs.open(file, 'r', function read (err, fd) {
-                        if (err) throw err;
-                        fs.readFile(file, 'utf8', function (err, data) {
-                            if (err) throw err;
-                            response.write(data);
-                            console.log('post_data:');
-                            console.log(data);
-                            fs.close(fd);
-                            console.log('closed %s.',  file);
-                            callback(err);
-                        });
+                        callback(err, fd);
                     });
                 });
             }
         });
-    },
-
+    }
 }
 
 module.exports = parser;
