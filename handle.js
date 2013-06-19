@@ -18,10 +18,9 @@ var handlers = {
         response.writeHead(200, {"Content-Type": "text/html"});
 
         files = ['./data/head.html',
+                 './data/form.html',
                  './data/footer.html'];
         parser.readFiles(files, response, 0);
-
-        response.end();
     },
 
     upload : function upload(response, postData) {

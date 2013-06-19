@@ -6,9 +6,10 @@
  */
 
 var fs = require('fs');
+// var $ = require('jquery');
 
 var parser = {
-    readFiles : function (files, i) {
+    readFiles : function (files, response, i) {
         if(i==0) {
             console.log('files: %j', files);
             console.log('       (%d entries)', files.length);
@@ -16,10 +17,19 @@ var parser = {
         console.log('Working on file ' + files[i] + '.');
         i = (null == i ? 0 : i);
         if (i < files.length ) {
-            this.readFile(files[i], response, function(err) {
-                if (err) throw err;
-                else this.readFiles(files, i+1);
+            this.readFile(files[i], response,
+                          function increment (err) {
+                if (err) {
+                    console.log('error: ' + err);
+                }
+                else {
+                    console.log('Finished working on file ' + files[i] + '.');
+                    parser.readFiles(files, response, i+1);
+                }
             });
+        }
+        else {
+            response.end();
         }
     },
 
@@ -39,6 +49,8 @@ var parser = {
                             console.log('post_data:');
                             console.log(data);
                             fs.close(fd);
+                            console.log('closed %s.',  file);
+                            callback(err);
                         });
                     });
                 });
