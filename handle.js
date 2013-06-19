@@ -19,6 +19,7 @@ var handlers = {
 
         files = [
                  './data/head.html',
+                 './data/body.html',
                  './data/form.html',
                  './data/footer.html'];
         parser.readFiles(files, response);
