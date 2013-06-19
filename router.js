@@ -1,6 +1,10 @@
 /* router.js
- * This file sends incoming requests to their associated controllers.
+ * Author: Nathan Typanski <ntypanski at gmail>
+ *
+ * This file sends processed http requests (in the form of pathnames and data)
+ * to handlers, which react based on their provided events.
  */
+
 var path = require("path");
 
 function route(handle, pathname, response, postData) {

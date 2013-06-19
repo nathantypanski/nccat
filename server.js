@@ -1,5 +1,9 @@
 /* server.js
+ * Author: Nathan Typanski <ntypanski at gmail>
+ *
  * This file listens and responsds to http requests.
+ * It uses listeners to respond to the various kinds of requests it can
+ * receive, then sends the results to the router.
  */
 
 var http = require("http");
