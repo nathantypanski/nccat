@@ -33,8 +33,25 @@ var handlers = {
                 querystring.parse(postData).text);
 
         response.end();
-    }
+    },
+
+    jquery : function jquery(response) {
+        console.log("Request handler 'jquery.js' was called.");
+
+        files = [
+                 './data/jquery.js',
+                ];
+        parser.readFiles(files, response);
+    },
+
+
+    ls : function ls(response, postdata) {
+        console.log('Request handler for "ls" was called.');
+        response.writeHead(200, {"Content-Type": "text/plain"});
+    },
 };
+
+// module.exports = handlers;
 
 
 module.exports = function handleRequest(name, response, postData) {
@@ -42,10 +59,11 @@ module.exports = function handleRequest(name, response, postData) {
     handlers[name](response, postData);
     return true;
   }
-  // do special cases (if there are any)
+
+  // If empty, default to /start
   if (name === '') {
     handlers.start(response);
     return true;
   }
-  return false; // not found
+  return false;
 }

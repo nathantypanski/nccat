@@ -4,7 +4,6 @@
  * Run our server. Keep it simple.
  */
 
-
 var server = require("./server");
 var router = require("./router");
 var handle = require("./handle");

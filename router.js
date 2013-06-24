@@ -6,13 +6,24 @@
  */
 
 var path = require("path");
+var handle = require('./handle');
 
 function route(handle, pathname, response, postData) {
-    console.log("About to route a request for " + pathname.split(path.sep)[1] + '.');
-    if(handle(pathname.split(path.sep)[1], response, postData)){
+
+    var routename = path.basename(
+            pathname.split(path.sep)[1],
+            path.extname(pathname)
+            );
+    console.log('Routing %s ...', routename);
+    if(handle(
+                routename,
+                response,
+                postData)){
+        // in case I ever decide to return something
         ;
+
     } else {
-        console.log("No request handler for " + pathname);
+        console.log("No request handler for " + routename);
         response.writeHead(404, {"Content-Type": "text/plain"});
         response.write("404 not found");
         response.end();
