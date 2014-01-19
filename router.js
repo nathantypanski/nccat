@@ -5,7 +5,7 @@
  * to handlers, which react based on their provided events.
  */
 
-va path = require("path");
+var path = require("path");
 var handle = require('./handle');
 
 function route(handle, pathname, response, postData) {
